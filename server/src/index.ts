@@ -1,19 +1,6 @@
 import Fastify from "fastify";
 import { faker } from "@faker-js/faker";
-import { User } from "./users/UserModel";
-
-interface UsersQuerystring {
-  total?: string;
-  page?: string;
-  pageSize?: string;
-}
-
-interface UsersResponse {
-  totalUsers: number;
-  page: number;
-  totalPages: number;
-  data: User[];
-}
+import type { User, UsersRequest, UsersResponse } from "@shared";
 
 const server = Fastify({ logger: true });
 
@@ -22,7 +9,7 @@ server.get("/date", async () => {
 });
 
 server.get<{
-  Querystring: UsersQuerystring;
+  Querystring: UsersRequest;
   Reply: UsersResponse;
 }>("/users", async (request) => {
   const totalUsers = Math.max(0, Number.parseInt(request.query.total ?? "0", 10) || 0);

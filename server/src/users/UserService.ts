@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import { User } from "./UserModel";
+import type { User } from "@shared";
 
 export const generateUsers = (count: number): User[] => {
   return Array.from({ length: count }, () => ({

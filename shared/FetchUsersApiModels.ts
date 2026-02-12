@@ -1,4 +1,4 @@
-import type { User } from "../../users/UserModel";
+import type { User } from "./UserModel";
 
 export interface UsersRequest {
   total?: string;
