@@ -1,6 +1,6 @@
 import Fastify from "fastify";
-import { faker } from "@faker-js/faker";
 import type { User, UsersRequest, UsersResponse } from "@shared";
+import { generateUsers } from "./users/UserService";
 
 const server = Fastify({ logger: true });
 
@@ -21,13 +21,7 @@ server.get<{
   const endIndex = Math.min(startIndex + pageSize, totalUsers);
   const count = Math.max(0, endIndex - startIndex);
 
-  const data: User[] = Array.from({ length: count }, () => ({
-    name: faker.person.fullName(),
-    email: faker.internet.email(),
-    password: faker.internet.password(),
-    age: faker.number.int({ min: 18, max: 80 }),
-    isAdmin: faker.datatype.boolean(),
-  }));
+  const data: User[] = generateUsers(count);
 
   return {
     totalUsers,
