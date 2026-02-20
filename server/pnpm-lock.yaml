@@ -11,9 +11,15 @@ importers:
       '@faker-js/faker':
         specifier: ^10.3.0
         version: 10.3.0
+      '@trpc/server':
+        specifier: ^11.10.0
+        version: 11.10.0(typescript@5.9.3)
       fastify:
         specifier: ^5.7.4
         version: 5.7.4
+      zod:
+        specifier: ^4.3.6
+        version: 4.3.6
     devDependencies:
       '@types/node':
         specifier: ^25.2.3
@@ -208,6 +214,11 @@ packages:
   '@pinojs/redact@0.4.0':
     resolution: {integrity: sha512-k2ENnmBugE/rzQfEcdWHcCY+/FM3VLzH9cYEsbdsoqrvzAKRhUZeRNhAZvB8OitQJ1TBed3yqWtdjzS6wJKBwg==}
 
+  '@trpc/server@11.10.0':
+    resolution: {integrity: sha512-zZjTrR6He61e5TiT7e/bQqab/jRcXBZM8Fg78Yoo8uh5pz60dzzbYuONNUCOkafv5ppXVMms4NHYfNZgzw50vg==}
+    peerDependencies:
+      typescript: '>=5.7.2'
+
   '@types/node@25.2.3':
     resolution: {integrity: sha512-m0jEgYlYz+mDJZ2+F4v8D1AyQb+QzsNqRuI7xg1VQX/KlKS0qT9r1Mo16yo5F/MtifXFgaofIFsdFMox2SxIbQ==}
 
@@ -382,6 +393,9 @@ packages:
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
 
+  zod@4.3.6:
+    resolution: {integrity: sha512-rftlrkhHZOcjDwkGlnUtZZkvaPHCsDATp4pGpuOOMDaTdDDXF91wuVDJoWoPsKX/3YPQ5fHuF3STjcYyKr+Qhg==}
+
 snapshots:
 
   '@esbuild/aix-ppc64@0.27.3':
@@ -488,6 +502,10 @@ snapshots:
       ipaddr.js: 2.3.0
 
   '@pinojs/redact@0.4.0': {}
+
+  '@trpc/server@11.10.0(typescript@5.9.3)':
+    dependencies:
+      typescript: 5.9.3
 
   '@types/node@25.2.3':
     dependencies:
@@ -688,3 +706,5 @@ snapshots:
   typescript@5.9.3: {}
 
   undici-types@7.16.0: {}
+
+  zod@4.3.6: {}

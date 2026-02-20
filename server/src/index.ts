@@ -1,6 +1,8 @@
 import Fastify from "fastify";
-import type { User, UsersRequest, UsersResponse } from "@shared";
-import { generateUsers } from "./users/UserService";
+import type { UsersRequest, UsersResponse } from "@shared";
+import { getUsers } from "./users/UserService";
+import { fastifyTRPCPlugin } from "@trpc/server/adapters/fastify";
+import { appRouter } from "./trpc/router";
 
 const server = Fastify({ logger: true });
 
@@ -12,23 +14,16 @@ server.get<{
   Querystring: UsersRequest;
   Reply: UsersResponse;
 }>("/users", async (request) => {
-  const totalUsers = Math.max(0, Number.parseInt(request.query.total ?? "0", 10) || 0);
-  const page = Math.max(1, Number.parseInt(request.query.page ?? "1", 10) || 1);
-  const pageSize = Math.max(1, Number.parseInt(request.query.pageSize ?? "10", 10) || 10);
+  const total = Number.parseInt(request.query.total ?? "0", 10) || 0;
+  const page = Number.parseInt(request.query.page ?? "1", 10) || 1;
+  const pageSize = Number.parseInt(request.query.pageSize ?? "10", 10) || 10;
 
-  const totalPages = totalUsers === 0 ? 0 : Math.ceil(totalUsers / pageSize);
-  const startIndex = (page - 1) * pageSize;
-  const endIndex = Math.min(startIndex + pageSize, totalUsers);
-  const count = Math.max(0, endIndex - startIndex);
+  return getUsers({ total, page, pageSize });
+});
 
-  const data: User[] = generateUsers(count);
-
-  return {
-    totalUsers,
-    page,
-    totalPages,
-    data,
-  };
+server.register(fastifyTRPCPlugin, {
+  prefix: "/trpc",
+  trpcOptions: { router: appRouter },
 });
 
 const start = async () => {

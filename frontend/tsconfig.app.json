@@ -23,9 +23,11 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true,
+    "baseUrl": ".",
     "paths": {
-      "@shared": ["./shared/index.ts"]
+      "@/*": ["./src/*"],
+      "@shared": ["../shared/index.ts"]
     }
   },
-  "include": ["src", "shared"]
+  "include": ["src", "../shared"]
 }

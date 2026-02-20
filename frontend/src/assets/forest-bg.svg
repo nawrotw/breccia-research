@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" opacity="0.15">
+  <defs>
+    <pattern id="smallGrid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#666" stroke-width="0.5"/>
+    </pattern>
+    <pattern id="grid" width="200" height="200" patternUnits="userSpaceOnUse">
+      <rect width="200" height="200" fill="url(#smallGrid)"/>
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#666" stroke-width="1.5"/>
+    </pattern>
+  </defs>
+
+  <!-- Graph paper background -->
+  <rect width="800" height="800" fill="url(#grid)"/>
+
+  <!-- Coordinate axes -->
+  <line x1="100" y1="400" x2="700" y2="400" stroke="#555" stroke-width="2"/>
+  <line x1="400" y1="100" x2="400" y2="700" stroke="#555" stroke-width="2"/>
+  <!-- Axis arrows -->
+  <polygon points="700,400 690,395 690,405" fill="#555"/>
+  <polygon points="400,100 395,110 405,110" fill="#555"/>
+  <!-- Axis tick marks -->
+  <line x1="200" y1="395" x2="200" y2="405" stroke="#555" stroke-width="1.5"/>
+  <line x1="300" y1="395" x2="300" y2="405" stroke="#555" stroke-width="1.5"/>
+  <line x1="500" y1="395" x2="500" y2="405" stroke="#555" stroke-width="1.5"/>
+  <line x1="600" y1="395" x2="600" y2="405" stroke="#555" stroke-width="1.5"/>
+  <line x1="395" y1="200" x2="405" y2="200" stroke="#555" stroke-width="1.5"/>
+  <line x1="395" y1="300" x2="405" y2="300" stroke="#555" stroke-width="1.5"/>
+  <line x1="395" y1="500" x2="405" y2="500" stroke="#555" stroke-width="1.5"/>
+  <line x1="395" y1="600" x2="405" y2="600" stroke="#555" stroke-width="1.5"/>
+
+  <!-- Sine wave curve -->
+  <path d="M 100,400 C 150,300 200,300 250,400 S 350,500 400,400 S 500,300 550,400 S 650,500 700,400" stroke="#888" stroke-width="2.5" fill="none"/>
+
+  <!-- Parabola -->
+  <path d="M 150,650 Q 400,150 650,650" stroke="#777" stroke-width="2" fill="none" stroke-dasharray="8,4"/>
+
+  <!-- Circle (unit circle concept) -->
+  <circle cx="400" cy="400" r="150" stroke="#777" stroke-width="1.5" fill="none" stroke-dasharray="6,3"/>
+
+  <!-- Golden spiral approximation -->
+  <path d="M 400,400 C 400,340 450,300 500,300 C 560,300 600,350 600,400 C 600,480 540,540 460,540 C 360,540 300,470 300,380 C 300,260 380,180 490,180 C 620,180 700,280 700,400" stroke="#999" stroke-width="2" fill="none"/>
+
+  <!-- Pi symbol -->
+  <text x="60" y="140" font-family="serif" font-size="48" fill="#666" font-style="italic">π</text>
+
+  <!-- Euler's identity -->
+  <text x="560" y="160" font-family="serif" font-size="28" fill="#666" font-style="italic">e</text>
+  <text x="576" y="148" font-family="serif" font-size="18" fill="#666" font-style="italic">iπ</text>
+  <text x="596" y="160" font-family="serif" font-size="28" fill="#666">+1=0</text>
+
+  <!-- Integral symbol -->
+  <text x="80" y="650" font-family="serif" font-size="72" fill="#666">∫</text>
+  <text x="110" y="640" font-family="serif" font-size="28" fill="#666" font-style="italic">f(x)dx</text>
+
+  <!-- Sigma summation -->
+  <text x="620" y="660" font-family="serif" font-size="64" fill="#666">Σ</text>
+  <text x="660" y="620" font-family="serif" font-size="18" fill="#666" font-style="italic">∞</text>
+  <text x="640" y="690" font-family="serif" font-size="16" fill="#666" font-style="italic">n=0</text>
+
+  <!-- Infinity symbol -->
+  <text x="680" y="380" font-family="serif" font-size="36" fill="#666">∞</text>
+
+  <!-- Square root -->
+  <text x="60" y="380" font-family="serif" font-size="32" fill="#666">√2</text>
+
+  <!-- Fibonacci spiral dots -->
+  <circle cx="400" cy="400" r="3" fill="#888"/>
+  <circle cx="500" cy="300" r="3" fill="#888"/>
+  <circle cx="600" cy="400" r="3" fill="#888"/>
+  <circle cx="460" cy="540" r="3" fill="#888"/>
+  <circle cx="300" cy="380" r="3" fill="#888"/>
+  <circle cx="490" cy="180" r="3" fill="#888"/>
+
+  <!-- Angle arc -->
+  <path d="M 430,400 A 30,30 0 0,0 400,370" stroke="#777" stroke-width="1.5" fill="none"/>
+  <text x="435" y="385" font-family="serif" font-size="16" fill="#666" font-style="italic">θ</text>
+
+  <!-- Small geometric triangles -->
+  <polygon points="200,200 240,200 220,170" stroke="#777" stroke-width="1" fill="none"/>
+  <polygon points="580,580 620,580 600,550" stroke="#777" stroke-width="1" fill="none"/>
+
+  <!-- Dot pattern (matrix feel) -->
+  <circle cx="160" cy="500" r="2" fill="#777"/>
+  <circle cx="180" cy="500" r="2" fill="#777"/>
+  <circle cx="200" cy="500" r="2" fill="#777"/>
+  <circle cx="160" cy="520" r="2" fill="#777"/>
+  <circle cx="180" cy="520" r="2" fill="#777"/>
+  <circle cx="200" cy="520" r="2" fill="#777"/>
+  <circle cx="160" cy="540" r="2" fill="#777"/>
+  <circle cx="180" cy="540" r="2" fill="#777"/>
+  <circle cx="200" cy="540" r="2" fill="#777"/>
+
+  <!-- Fraction bar with phi -->
+  <text x="620" y="465" font-family="serif" font-size="22" fill="#666" font-style="italic">φ</text>
+  <text x="610" y="490" font-family="serif" font-size="18" fill="#666">=1.618…</text>
+</svg>
