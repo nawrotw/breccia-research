@@ -11,8 +11,10 @@ function RootLayout() {
         className="min-h-screen bg-background text-foreground"
         style={{
           backgroundImage: `url(${forestBg})`,
-          backgroundRepeat: "repeat",
-          backgroundSize: "800px 800px",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundAttachment: "fixed",
         }}
       >
         <TopBar />
