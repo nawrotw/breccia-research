@@ -284,37 +284,6 @@ Routes are auto-generated with full type safety. The CLI/plugin watches for file
 
 ---
 
-## DevTools
-
-### React Router
-
-No official devtools (relies on browser DevTools, React DevTools).
-
-### TanStack Router
-
-Dedicated `@tanstack/router-devtools` package showing:
-- Current route matches
-- Loader states and data
-- Search params
-- Route cache status
-- Pending navigations
-
----
-
-## Migration Effort (This Project)
-
-Only **3 files** required changes to migrate from React Router to TanStack Router:
-
-| File | Change |
-|---|---|
-| `router.tsx` | `createBrowserRouter` → `createRouter` + `createRoute` + `createRootRoute` |
-| `main.tsx` | Swap `RouterProvider` import |
-| `TopBar.tsx` | `NavLink` → `Link` with `activeProps` |
-
-Page components (`UsersPage`, `CreateUserPage`, `AntUsersPage`) required **zero changes** — they don't use any router hooks directly.
-
----
-
 ## Summary
 
 | Feature | React Router | TanStack Router | Winner |
@@ -323,22 +292,7 @@ Page components (`UsersPage`, `CreateUserPage`, `AntUsersPage`) required **zero 
 | **Search Params** | Untyped strings | Validated + typed | TanStack Router |
 | **Data Loading** | Self-contained (loader/action) | Complementary to TanStack Query | Tie (different philosophy) |
 | **File-Based Routing** | Framework mode only | Built-in | TanStack Router |
-| **DevTools** | None | Dedicated package | TanStack Router |
 | **Ecosystem Maturity** | 10+ years, massive adoption | ~2 years, growing rapidly | React Router |
 | **Learning Resources** | Extensive | Growing but smaller | React Router |
 | **Mutations** | Built-in actions | Relies on external (TanStack Query) | React Router |
 | **SSR/Framework** | Remix integration | TanStack Start (experimental) | React Router |
-| **Migration Effort** | N/A | Minimal for this project | Tie |
-
-### When to Choose React Router
-- Existing projects already using it
-- Need full framework features (Remix/SSR)
-- Team familiarity is a priority
-- Want self-contained loader/action patterns
-
-### When to Choose TanStack Router
-- Type safety is a priority
-- Already using TanStack Query
-- Complex search param requirements
-- Starting a new SPA project
-- Want file-based routing without a framework
