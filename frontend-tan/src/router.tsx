@@ -34,6 +34,11 @@ const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: "/",
   component: lazyRouteComponent(() => import("@/pages/UsersPage"), "UsersPage"),
+  validateSearch: (search: Record<string, unknown>) => ({
+    page: Number(search.page) || 1,
+    rowsPerPage: Number(search.rowsPerPage) || 10,
+    sort: typeof search.sort === "string" ? search.sort : "",
+  }),
 });
 
 const createUserRoute = createRoute({

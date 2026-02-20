@@ -3,6 +3,7 @@ import {
   type ColumnFiltersState,
   type SortingState,
   type RowSelectionState,
+  type OnChangeFn,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -41,6 +42,8 @@ interface DataTableProps<TData, TValue> {
   onPageChange: (page: number) => void;
   onPageSizeChange: (pageSize: number) => void;
   onSortRenderTime?: (ms: number) => void;
+  sorting: SortingState;
+  onSortingChange: OnChangeFn<SortingState>;
 }
 
 export function DataTable<TData, TValue>({
@@ -53,16 +56,17 @@ export function DataTable<TData, TValue>({
   onPageChange,
   onPageSizeChange,
   onSortRenderTime,
+  sorting,
+  onSortingChange,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const [globalFilter, setGlobalFilter] = useState("");
   const sortStartTime = useRef<number | null>(null);
 
-  const handleSortingChange: typeof setSorting = (updater) => {
+  const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
     sortStartTime.current = performance.now();
-    setSorting(updater);
+    onSortingChange(updater);
   };
 
   useEffect(() => {

@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { DataTable } from "@/components/users-table/DataTable";
 import { columns } from "@/components/users-table/columns";
 import type { User } from "@shared";
+import type { SortingState } from "@tanstack/react-table";
 
 const testUsers: User[] = [
   { name: "Alice Smith", email: "alice@test.com", password: "secret1", age: 30, isAdmin: true },
@@ -20,6 +21,8 @@ const defaultProps = {
   totalUsers: 25,
   onPageChange: () => {},
   onPageSizeChange: () => {},
+  sorting: [] as SortingState,
+  onSortingChange: () => {},
 };
 
 describe("DataTable", () => {
@@ -83,16 +86,15 @@ describe("DataTable", () => {
     expect(screen.queryByText("Bob Jones")).not.toBeInTheDocument();
   });
 
-  it("sorts by name column", async () => {
+  it("calls onSortingChange when sorting by column", async () => {
+    const onSortingChange = vi.fn();
     const user = userEvent.setup();
-    render(<DataTable {...defaultProps} />);
+    render(<DataTable {...defaultProps} onSortingChange={onSortingChange} />);
 
     const nameHeader = screen.getByRole("button", { name: /name/i });
     await user.click(nameHeader);
 
-    const rows = screen.getAllByRole("row");
-    // header row + 3 data rows
-    expect(rows).toHaveLength(4);
+    expect(onSortingChange).toHaveBeenCalled();
   });
 
   it("selects individual rows with checkboxes", async () => {

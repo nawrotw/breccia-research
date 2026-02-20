@@ -1,5 +1,7 @@
-import { useState } from "react";
-import type { User, UsersResponse } from "@shared";
+import { useState, useMemo } from "react";
+import { useSearch, useNavigate } from "@tanstack/react-router";
+import type { SortingState, OnChangeFn } from "@tanstack/react-table";
+import type { User } from "@shared";
 import { fetchUsers } from "@/api/fetchUsers";
 import { trpcRouter } from "@/lib/trpcRouter";
 import { DataTable } from "@/components/users-table/DataTable";
@@ -9,21 +11,47 @@ import { Input } from "@/components/ui/input";
 
 const DEFAULT_PAGE_SIZE = 10;
 
+function serializeSorting(sorting: SortingState): string {
+  if (sorting.length === 0) return "";
+  return `${sorting[0].id}:${sorting[0].desc ? "desc" : "asc"}`;
+}
+
+function parseSorting(value: string | undefined): SortingState {
+  if (!value) return [];
+  const [id, dir] = value.split(":");
+  if (!id) return [];
+  return [{ id, desc: dir === "desc" }];
+}
+
 export function UsersPage() {
-  const [totalCount, setTotalCount] = useState("50");
-  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
-  const [data, setData] = useState<User[]>([]);
-  const [meta, setMeta] = useState<Omit<UsersResponse, "data">>({
-    totalUsers: 0,
-    page: 1,
-    totalPages: 0,
+  const { page, rowsPerPage: pageSize, sort: sortParam } = useSearch({
+    from: "/",
   });
+  const navigate = useNavigate({ from: "/" });
+  const sorting = useMemo(() => parseSorting(sortParam), [sortParam]);
+
+  const [totalCount, setTotalCount] = useState("50");
+  const [data, setData] = useState<User[]>([]);
+  const [totalPages, setTotalPages] = useState(0);
+  const [totalUsers, setTotalUsers] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [sortTime, setSortTime] = useState<number | null>(null);
   const trpc = trpcRouter.useUtils();
 
-  const loadPage = async (requestedPage: number, requestedPageSize: number = pageSize) => {
+  const updateParams = (
+    updates: { page?: number; rowsPerPage?: number; sort?: string },
+  ) => {
+    navigate({
+      search: (prev) => ({ ...prev, ...updates }),
+      replace: true,
+    });
+  };
+
+  const loadPage = async (
+    requestedPage: number,
+    requestedPageSize: number,
+  ) => {
     setLoading(true);
     setError(null);
     try {
@@ -33,11 +61,8 @@ export function UsersPage() {
         pageSize: String(requestedPageSize),
       });
       setData(response.data);
-      setMeta({
-        totalUsers: response.totalUsers,
-        page: response.page,
-        totalPages: response.totalPages,
-      });
+      setTotalPages(response.totalPages);
+      setTotalUsers(response.totalUsers);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
@@ -46,12 +71,14 @@ export function UsersPage() {
   };
 
   const handleFetch = () => {
-    loadPage(1);
+    updateParams({ page: 1 });
+    loadPage(1, pageSize);
   };
 
   const handleFetchTrpc = async () => {
     setLoading(true);
     setError(null);
+    updateParams({ page: 1 });
     try {
       const response = await trpc.users.fetch({
         total: Number(totalCount) || 10,
@@ -59,11 +86,8 @@ export function UsersPage() {
         pageSize,
       });
       setData(response.data);
-      setMeta({
-        totalUsers: response.totalUsers,
-        page: response.page,
-        totalPages: response.totalPages,
-      });
+      setTotalPages(response.totalPages);
+      setTotalUsers(response.totalUsers);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Unknown error");
     } finally {
@@ -72,12 +96,19 @@ export function UsersPage() {
   };
 
   const handlePageChange = (newPage: number) => {
-    loadPage(newPage);
+    updateParams({ page: newPage });
+    loadPage(newPage, pageSize);
   };
 
   const handlePageSizeChange = (newSize: number) => {
-    setPageSize(newSize);
+    updateParams({ page: 1, rowsPerPage: newSize });
     loadPage(1, newSize);
+  };
+
+  const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
+    const newSorting =
+      typeof updater === "function" ? updater(sorting) : updater;
+    updateParams({ sort: serializeSorting(newSorting) || undefined });
   };
 
   return (
@@ -120,13 +151,15 @@ export function UsersPage() {
       <DataTable
         columns={columns}
         data={data}
-        page={meta.page}
+        page={page}
         pageSize={pageSize}
-        totalPages={meta.totalPages}
-        totalUsers={meta.totalUsers}
+        totalPages={totalPages}
+        totalUsers={totalUsers}
         onPageChange={handlePageChange}
         onPageSizeChange={handlePageSizeChange}
         onSortRenderTime={setSortTime}
+        sorting={sorting}
+        onSortingChange={handleSortingChange}
       />
     </div>
   );
